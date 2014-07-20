@@ -1,0 +1,9 @@
+<div class = "well"><h2><p class = "lead text text-center text-info" > <strong>Larry's <img src = "images\game\Blackjack.jpg" width = "150" height = "83"/> Table </strong></p></h2> </div>
+<br/>
+<form action = '/set_bet' method = 'post'>
+<h2><legend>Make a bet for this round:</legend><h2>
+
+ <input type = 'text' placeholder = "enter bet...Pot: $<%=session[:bank]%>" name = "new_bet"/>
+  <br/>
+  <input type = 'submit' class = 'btn-success' value = 'Place bet'/>
+</form>

@@ -1,0 +1,72 @@
+<div id="game">
+  <%if @loser %>
+      <div class="alert alert-error" align = 'center'><%=@loser%></div>
+    <% end %>
+    <%if @winner %>
+      <div class="alert alert-success" align = 'center'><%=@winner%></div>
+    <% end %>
+
+<% if @game_over%>
+  <p>
+    <div align = "bottom">
+      <small>Play again?</small>
+    <a href="/bet" class="btn btn-success">Yes</a>
+    <a href="/game_over" class="btn btn-warning"> No</a></div>
+  </p>
+<% end %>
+    
+<div class = "well"><h2><p class = "lead text text-center text-info" > <strong>Larry's <img src = "/images/game/Blackjack.jpg" width = "150" height = "83"/> Table </strong></p></h2> </div>
+<p>Welcome <%= session[:player_name] %>.</p>
+<br/>
+<p><%= session[:player_name] %> bet: <%=session[:new_bet].to_s %>
+<div class = "alert alert-error">
+  <h4><p class = "lead text text-left text-info" style = "font-family:arial;color:Black;font-size:20px;"><strong>Dealer's Hand:</strong> </p></h4>
+    <p class = 'pic' align = 'center' >
+  <% session[:dealer_cards].each_with_index do |card, index| %>
+    <%if session[:turn] != "dealer" && index== 0%>
+      <img src = "/images/cards/cover.jpg" class = "img-polaroid" >
+    <%else%>
+      <%= card_image(card) %>
+    <% end %>
+  <% end %>
+
+  <%if session[:turn] == "dealer"%>
+      <p class = "lead text text-primary" style = "font-family:arial;color:gray;font-size:20px;"><strong>Dealer's total is: <%= calculate_total(session[:dealer_cards])%>
+  <%end%>
+<%if @show_dealer_hit_button%>
+  and will hit.</strong></p>
+      <form id = "dealer_hit" action='/game/dealer/hit' method='post'>
+          <input type='submit' class='btn btn-primary' value='Click to see dealer card &rarr;'>
+        </form>
+    </p>
+  <% end %>
+</div>
+
+<div class = "alert alert-success" id = "player_cards">
+  <h4><p class = "lead text text-left text-info" style = "font-family:arial;color:black;font-size:20px;"><strong> <%= session[:player_name]%>'s Hand: </strong> </p>
+  <p class = 'pic' align = 'center' >
+    <% session[:player_cards].each do |card| %>
+      <%=card_image(card) %>
+    <% end %>
+  </p>
+
+  <p class = "lead text text-primary" style = "font-family:arial;color:gray;font-size:20px;">
+  <strong><%=session[:player_name] %>'s total is: <%= calculate_total(session[:player_cards]) %></strong>
+  <p style = "font-family:arial;color:gray;font-size:15px;">
+  <%= session[:player_name] %> has $<%= session[:bank] %> and bet $<%= session[:new_bet] %>
+  </p></p>
+  <%if (calculate_total(session[:player_cards]) == 21 ||calculate_total(session[:dealer_cards]) == 21) && !@game_over %>
+    <%redirect "/game/BlackJack"%>
+  <%else %>
+    <%if @show_hit_or_stay_buttons%>
+    </div>
+      <legend> What would <%=session[:player_name] %> like to do? </legend>
+        <form id="hit_form" action = "/game/player/hit" method = 'post'>
+          <input type = "submit" class = "btn btn-success" value = "Hit"/>
+        </form>
+        <form id="stay_form" action = "/game/player/stay" method = "post">
+          <input type = "submit" class = "btn btn-primary" value = "Stay"/>
+        </form>
+    <%end%>
+  <%end%>
+</div>
