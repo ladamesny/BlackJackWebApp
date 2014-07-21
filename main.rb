@@ -89,8 +89,8 @@ get '/bet' do
 end
 
 post '/set_bet' do
-  if params[:new_bet].nil? || params[:new_bet].to_i == 0
-    @error = "Must make a bet."
+  if params[:new_bet].nil? || params[:new_bet].to_i == 0 || params[:new_bet].class != Fixnum 
+    @error = "Please place a dollar amount for your bet."
     halt erb(:bet)
   elsif params[:new_bet].to_i > session[:bank]
     @error = "Bet amount cannot be greater than what you have ($#{session[:bank]})"
