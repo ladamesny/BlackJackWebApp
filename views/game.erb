@@ -16,9 +16,9 @@
 <% end %>
     
 <div class = "well"><h2><p class = "lead text text-center text-info" > <strong>Larry's <img src = "/images/game/Blackjack.jpg" width = "150" height = "83"/> Table </strong></p></h2> </div>
-<p>Welcome <%= session[:player_name] %>.</p>
+<p id="greeting">Welcome <%= session[:player_name] %>!</p>
 <br/>
-<p><%= session[:player_name] %> bet: <%=session[:new_bet].to_s %>
+<p id="player_bet"><%= session[:player_name] %>'s bet: $<%=session[:new_bet].to_s %>
 <div class = "alert alert-error">
   <h4><p class = "lead text text-left text-info" style = "font-family:arial;color:Black;font-size:20px;"><strong>Dealer's Hand:</strong> </p></h4>
     <p class = 'pic' align = 'center' >

@@ -36,20 +36,20 @@ helpers do
     @show_hit_or_stay_buttons = false
     @game_over = true
     session[:bank] = session[:bank] + session[:new_bet] 
-    @winner = "<strong>#{session[:player_name]}</strong> wins! #{msg}."
+    @winner = "<strong>#{session[:player_name]}</strong> wins! #{msg}"
   end
 
   def loser!(msg)
     @show_hit_or_stay_buttons = false
     @game_over = true
     session[:bank] = session[:bank] - session[:new_bet]
-    @loser = "<strong>#{session[:player_name]}</strong> loses! #{msg}." 
+    @loser = "<strong>#{session[:player_name]}</strong> loses! #{msg}" 
   end
 
   def tie!(msg)
     @show_hit_or_stay_buttons = false
     @game_over = true
-    @winner = "<strong>#{session[:player_name]}</strong> wins! #{msg}."
+    @winner = "<strong>#{session[:player_name]}</strong> wins! #{msg}"
   end
 
 end
@@ -93,6 +93,9 @@ post '/set_bet' do
   if bet.nil? || bet == 0 ||bet%1 != 0
     @error = "Please place a dollar amount for your bet."
     halt erb(:bet)
+  elsif params[:new_bet].to_i > session[:bank] && session[:bank] == 0
+    @error = "Sorry, you ran out of money. Please start over."
+    halt erb(:game_over)
   elsif params[:new_bet].to_i > session[:bank]
     @error = "Bet amount cannot be greater than what you have ($#{session[:bank]})"
     halt erb(:bet)
