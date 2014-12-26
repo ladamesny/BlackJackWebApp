@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'sinatra/reloader' if development?
 
 set :sessions, true
 BLACKJACK_AMOUNT = 21
